@@ -23,18 +23,19 @@ type ArticleParamsFormProps = {
 };
 
 export const ArticleParamsForm = ({ AppState }: ArticleParamsFormProps) => {
+
+	const rootRef = useRef<HTMLDivElement>(null);
 	const [isOpen, setOpen] = useState<boolean>(false);
 	const [OptionState, setOptionState] =
 		useState<ArticleStateType>(defaultArticleState);
-	const rootRef = useRef<HTMLDivElement>(null);
 
-	function StateChange(key: keyof ArticleStateType) {
+	function changeState(key: keyof ArticleStateType) {
 		return function (value: OptionType) {
 			setOptionState((prevState) => ({ ...prevState, [key]: value }));
 		};
 	}
 
-	function StateReset() {
+	function resetState() {
 		setOptionState(defaultArticleState);
 		AppState(defaultArticleState);
 	}
@@ -68,33 +69,33 @@ export const ArticleParamsForm = ({ AppState }: ArticleParamsFormProps) => {
 							title='Шрифт'
 							selected={OptionState.fontFamilyOption}
 							options={fontFamilyOptions}
-							onChange={StateChange('fontFamilyOption')}
+							onChange={changeState('fontFamilyOption')}
 						/>
 						<RadioGroup
 							title='Размер шрифта'
 							name='Fonts'
 							selected={OptionState.fontSizeOption}
 							options={fontSizeOptions}
-							onChange={StateChange('fontSizeOption')}
+							onChange={changeState('fontSizeOption')}
 						/>
 						<Select
 							title='Цвет шрифта'
 							selected={OptionState.fontColor}
 							options={fontColors}
-							onChange={StateChange('fontColor')}
+							onChange={changeState('fontColor')}
 						/>
 						<Separator />
 						<Select
 							title='Цвет фона'
 							selected={OptionState.backgroundColor}
 							options={backgroundColors}
-							onChange={StateChange('backgroundColor')}
+							onChange={changeState('backgroundColor')}
 						/>
 						<Select
 							title='Ширина контента'
 							selected={OptionState.contentWidth}
 							options={contentWidthArr}
-							onChange={StateChange('contentWidth')}
+							onChange={changeState('contentWidth')}
 						/>
 
 						<div className={styles.bottomContainer}>
@@ -102,9 +103,12 @@ export const ArticleParamsForm = ({ AppState }: ArticleParamsFormProps) => {
 								title='Сбросить'
 								htmlType='reset'
 								type='clear'
-								onClick={StateReset}
+								onClick={resetState}
 							/>
-							<Button title='Применить' htmlType='submit' type='apply' />
+							<Button
+							    title='Применить'
+								htmlType='submit'
+								type='apply' />
 						</div>
 					</form>
 				</aside>
